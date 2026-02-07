@@ -4,14 +4,22 @@ import {
   PaginationItem,
   PaginationLink,
 } from "@/components/ui/pagination"
+// import { useState } from "react"
 
-export function PaginationExpense({className}) {
+export function PaginationExpense({ actPage,setActPage,expenseEntries, className }) {
+  // const [actPage, setActPage] = useState(1);
+  const totalPages=Math.ceil(expenseEntries/5);
   return (
     <Pagination className={className}>
       <PaginationContent>
-        <PaginationItem>
-          <PaginationLink href="#">1</PaginationLink>
-        </PaginationItem>
+        {Array.from({ length: totalPages }, (_, i) => (
+          <PaginationItem key={i+1}>
+            <PaginationLink onClick={(e)=>{e.preventDefault(); setActPage(i + 1)}}
+             isActive={(i+1)==actPage}>{i + 1}
+            </PaginationLink>
+          </PaginationItem>
+        ))}
+{/* 
         <PaginationItem>
           <PaginationLink href="#" isActive>
             2
@@ -25,7 +33,7 @@ export function PaginationExpense({className}) {
         </PaginationItem>
         <PaginationItem>
           <PaginationLink href="#">5</PaginationLink>
-        </PaginationItem>
+        </PaginationItem> */}
       </PaginationContent>
     </Pagination>
   )

@@ -11,9 +11,10 @@ import {
 } from "@/components/ui/popover"
 import { format } from "date-fns"
 
-export function DatePicker({label}) {
-  const [date, setDate] = React.useState()
-
+export function DatePicker({date,setDate,label}) {
+  // const [date, setDate] = React.useState()
+  // console.log(date);
+  
   return (
     <Field className=" w-10/12">
       <FieldLabel htmlFor="date-picker-simple">{label}</FieldLabel>
