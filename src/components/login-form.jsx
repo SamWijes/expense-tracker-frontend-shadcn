@@ -20,7 +20,8 @@ import axios from "axios";
 
 
 
-axios.defaults.baseURL = "http://localhost:3000"
+axios.defaults.baseURL = import.meta.env.VITE_API_URL;
+
 
 
 
@@ -65,7 +66,7 @@ export function LoginForm({
 
 
   return (
-    <div className="flex flex-col min-h-svh items-center justify-center">
+    <div className="flex flex-col min-h-svh items-center">
       <div className={cn("flex flex-col gap-6 w-full max-w-sm", className)} {...props}>
         <Card>
           <CardHeader>

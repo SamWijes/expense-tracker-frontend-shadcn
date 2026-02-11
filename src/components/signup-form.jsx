@@ -22,8 +22,9 @@ import { toast } from "sonner"
 
 
 export function SignupForm({ className, ...props }) {
-  axios.defaults.baseURL = "http://localhost:3000";
+  axios.defaults.baseURL = import.meta.env.VITE_API_URL;
   const navigate = useNavigate()
+ 
 
   const [userName, setUser] = useState();
   const [pass, setPass] = useState();
