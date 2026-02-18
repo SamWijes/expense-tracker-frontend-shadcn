@@ -7,19 +7,23 @@ import { GradientGlassHeading } from '@/components/glass-heading';
 import { ExpenseForm } from "@/components/expense-form";
 import { Box } from "lucide-react";
 import { ExpenseDash } from "./pages/ExpenseDash/ExpenseDash";
+import  { SonnerDescription } from "./components/sonner";
+import { Toaster } from "sonner"
 function App() {
   return (
     <>
-    <div className="text-center sticky top-5">
+    <div className="text-center sticky top-5 pointer-events-none ">
       <GradientGlassHeading className="mb-6 ">Expense Tracker</GradientGlassHeading>
     </div>
-
+    
 
       <Routes>
         <Route path="/" element={<LoginForm />} />
         <Route path="/register" element={<SignupForm />} />
-        <Route path="/auth" element={<ExpenseDash />} />
+        <Route path="/home" element={<ExpenseDash />} />
+
       </Routes>
+       <Toaster />
     </>
   )
 }
