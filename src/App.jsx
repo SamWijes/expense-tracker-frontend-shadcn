@@ -11,6 +11,12 @@ import  { SonnerDescription } from "./components/sonner";
 import { Toaster } from "sonner"
 import numbers from "./assets/numbers.jpg"
 function App() {
+  const head = document.head;
+
+new MutationObserver(() => {
+  const icon = document.querySelector("link[rel*='icon']");
+  if (icon) console.log("FAVICON NOW:", icon.outerHTML);
+}).observe(head, { childList: true, subtree: true, attributes: true });
   return (
     <>
     <section className="relative bg-cover -z-20 " style={{backgroundImage: `url(${numbers})`}} >

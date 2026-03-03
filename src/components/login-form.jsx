@@ -47,6 +47,8 @@ export function LoginForm({
       password: pass
     }
     try {
+      // console.log(axios.defaults.baseURL);
+      
       const loginRes = await axios.post("/login", body)
       // console.log(loginRes);
       setToken(loginRes.data.token,loginRes.data.user.email)
