@@ -6,11 +6,12 @@ import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import axios from "axios";
 import { useEffect } from "react";
+import Footer from "../../components/footer";
 
 export function ExpenseDash() {
     const [expenses, setExpenses] = useState([{ title: "lunch", amount: 2500, date: "10-10-2024" }])
     const [visibleExpenses, setVisibleExpenses] = useState([]);
-    console.log("render ExpenseDash");
+    // console.log("render ExpenseDash");
 
     const navigate = useNavigate();
     const username = localStorage.getItem("user");
@@ -26,7 +27,7 @@ export function ExpenseDash() {
                     Authorization: `Bearer ${localStorage.getItem("token")}`
                 }
             });
-            console.log("here", expResult);
+            // console.log("here", expResult);
 
             setExpenses(expResult.data)
             setVisibleExpenses(expResult.data)
@@ -46,7 +47,7 @@ export function ExpenseDash() {
     return (
         <>
 
-            <div className="mt-10 p-20 w-11/12 max-w-7xl min-w-2xl mx-auto  ">
+            <div className=" px-20 w-11/12 max-w-7xl min-w-2xl mx-auto  ">
                 <div className="flex justify-between ">
                     <Button type="button" onClick={removeToken} className="mb-5 text-lg cursor-pointer   ">Log Out</Button>
                     <h5 className="relative -z-1 border bg-linear-to-b from-gray-300/40 to-white/80 backdrop-blur-md h-10
@@ -54,7 +55,7 @@ export function ExpenseDash() {
                 </div>
                 <div className="grid grid-cols-3 grid-rows-2 gap-5 ">
 
-                    <ExpenseForm setExpenses={setExpenses} allexpenses={expenses} setVisibleExpenses={setVisibleExpenses} className="col-start-1 w-max-150 w-full max-w-sm row-start-1 justify-self-end overflow-hidden" />
+                    <ExpenseForm setExpenses={setExpenses} expenses={expenses} setVisibleExpenses={setVisibleExpenses} className="col-start-1 w-max-150 w-full max-w-sm row-start-1 justify-self-end overflow-hidden" />
 
                     <ExpenseList
                         className=" col-start-2 col-end-4 row-start-1 row-span-2 w-full  h-full"
@@ -62,8 +63,10 @@ export function ExpenseDash() {
 
                     />
 
-                    <ExpenseFilter expenses={expenses} setExpenses={setVisibleExpenses} className=" max-w-sm col-start-1 row-start-2 justify-self-end overflow-hidden" />
+                    <ExpenseFilter expenses={visibleExpenses} setExpenses={setVisibleExpenses} className=" max-w-sm col-start-1 row-start-2 justify-self-end overflow-hidden" />
+                   
                 </div>
+                 <Footer className="mt-50"/>
             </div>
         </>
         //         <div className="mt-10 px-2">

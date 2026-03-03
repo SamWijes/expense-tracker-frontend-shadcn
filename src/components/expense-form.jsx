@@ -4,19 +4,38 @@ import { Input } from "./ui/input"
 import {Button} from './ui/button';
 import { useState } from "react";
 import axios from "axios";
+import { DatePicker } from "./ui/date-range-picker";
+import { format } from "date-fns";
 export function ExpenseForm({setExpenses,expenses,setVisibleExpenses,className=""}) {
     const [title,setTitle]=useState();
     const [amount,setAmount]=useState();
+    const [date,setDate]=useState();
+    const [receiptFile,setReceiptFile]=useState(null);
 
     async function addExpense() {
-        const payload={title:title,amount:amount};
+        const payload={
+            title:title,
+            amount:amount,
+            date: date ? format(date, "yyyy-MM-dd") : ""
+        };
         const token=localStorage.getItem("token")
         try {
             console.log("clicked add exp");
-            
-            await axios.post('/expense/add',payload,{headers:{Authorization:`Bearer ${token}`}})
-            setExpenses(prev=>[...prev,payload])
-            setVisibleExpenses([...expenses,payload])
+
+            const formData = new FormData();
+            formData.append("title", payload.title ?? "");
+            formData.append("amount", payload.amount ?? "");
+            formData.append("date", payload.date ?? "");
+            if (receiptFile) {
+                formData.append("file", receiptFile);
+            }
+
+            const addRes = await axios.post('/expense/add',formData,{
+                headers:{Authorization:`Bearer ${token}`}
+            })
+            const createdExpense = addRes.data;
+            setExpenses(prev=>[...prev,createdExpense])
+            setVisibleExpenses([...expenses,createdExpense])
             
             
         } catch (error) {
@@ -34,8 +53,14 @@ export function ExpenseForm({setExpenses,expenses,setVisibleExpenses,className="
             <Field>
                 <Input onChange={(e)=>setAmount(e.target.value)} type={"number"} placeholder="amount"/>
             </Field>
+            <DatePicker date={date} setDate={setDate} label={"Expense Date"} />
             <Field>
-                <Input placeholder="asdas"/>
+                <FieldLabel htmlFor="receipt-file">Receipt File</FieldLabel>
+                <Input
+                    id="receipt-file"
+                    type="file"
+                    onChange={(e)=>setReceiptFile(e.target.files?.[0] ?? null)}
+                />
             </Field>
            </FieldGroup>
            <Button onClick={addExpense} className={"mt-3"}>Add Expense </Button>
